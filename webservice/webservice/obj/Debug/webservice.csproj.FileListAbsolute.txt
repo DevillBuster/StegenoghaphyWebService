@@ -1,0 +1,6 @@
+c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\bin\webservice.dll.config
+c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\bin\webservice.dll
+c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\bin\webservice.pdb
+c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\obj\Debug\webservice.csprojResolveAssemblyReference.cache
+c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\obj\Debug\webservice.dll
+c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\obj\Debug\webservice.pdb
