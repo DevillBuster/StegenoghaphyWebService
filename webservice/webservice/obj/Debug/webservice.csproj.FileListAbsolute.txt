@@ -4,3 +4,9 @@ c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webser
 c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\obj\Debug\webservice.csprojResolveAssemblyReference.cache
 c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\obj\Debug\webservice.dll
 c:\users\moazam iftikhar\documents\visual studio 2013\Projects\webservice\webservice\obj\Debug\webservice.pdb
+C:\Users\Moazam Iftikhar\Documents\StegenoghaphyWebService\webservice\webservice\bin\webservice.dll.config
+C:\Users\Moazam Iftikhar\Documents\StegenoghaphyWebService\webservice\webservice\bin\webservice.dll
+C:\Users\Moazam Iftikhar\Documents\StegenoghaphyWebService\webservice\webservice\bin\webservice.pdb
+C:\Users\Moazam Iftikhar\Documents\StegenoghaphyWebService\webservice\webservice\obj\Debug\webservice.csprojResolveAssemblyReference.cache
+C:\Users\Moazam Iftikhar\Documents\StegenoghaphyWebService\webservice\webservice\obj\Debug\webservice.dll
+C:\Users\Moazam Iftikhar\Documents\StegenoghaphyWebService\webservice\webservice\obj\Debug\webservice.pdb
