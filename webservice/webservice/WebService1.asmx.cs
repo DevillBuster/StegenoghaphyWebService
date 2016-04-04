@@ -433,9 +433,9 @@ namespace webservice
         /// <returns></returns>
         /// 
         [WebMethod]
-        public String embedText(string text, String bitmap)
+        public Bitmap embedText(string text, Bitmap bmp)
         {
-            Bitmap bmp = str2bmp(bitmap);
+           // Bitmap bmp = str2bmp(bitmap);
             String bitmapString;
             State s = State.hiding;
 
@@ -468,8 +468,8 @@ namespace webservice
                                 {
                                     bmp.SetPixel(j, i, Color.FromArgb(R, G, B));
                                 }
-                                bitmapString = bmp2str(bmp);
-                                return bitmapString;
+                               // bitmapString = bmp2str(bmp);
+                               return bmp ;
                             }
 
                             if (charIndex >= text.Length)
@@ -526,52 +526,43 @@ namespace webservice
             }
 
 
-            return bitmapString = bmp2str(bmp);
-        }
-
-
-
-        public String bmp2str(Bitmap bmp)
-        {
-
-            string bitmapString = null;
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                bmp.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
-                byte[] bitmapBytes = memoryStream.GetBuffer();
-                bitmapString = Convert.ToBase64String(bitmapBytes, Base64FormattingOptions.InsertLineBreaks);
-            }
-
-
-            return bitmapString;
-
-        }
-
-
-        public Bitmap str2bmp(String str)
-        {
-
-
-
-            Image img = null;
-            byte[] bitmapBytes = Convert.FromBase64String(str);
-            using (MemoryStream memoryStream = new MemoryStream(bitmapBytes))
-            {
-                img = Image.FromStream(memoryStream);
-            }
-            Bitmap bmp = new Bitmap(img);
             return bmp;
-
-
-
         }
-    
-       
 
 
 
+        //public String bmp2str (Bitmap bmp) {
+
+        //    string bitmapString = null;
+        //    using (MemoryStream memoryStream = new MemoryStream())
+        //    {
+        //        bmp.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
+        //        byte[] bitmapBytes = memoryStream.GetBuffer();
+        //        bitmapString = Convert.ToBase64String(bitmapBytes, Base64FormattingOptions.InsertLineBreaks);
+        //    }
 
 
+        //    return bitmapString;
+            
+        //}
+
+
+        //public Bitmap str2bmp(String str) {
+
+
+
+        //    Image img = null;
+        //    byte[] bitmapBytes = Convert.FromBase64String(str);
+        //    using (MemoryStream memoryStream = new MemoryStream(bitmapBytes))
+        //    {
+        //        img = Image.FromStream(memoryStream);
+        //    }
+        //    Bitmap bmp = new Bitmap(img);
+        //    return bmp;
+
+
+
+        //}
     
     
     
