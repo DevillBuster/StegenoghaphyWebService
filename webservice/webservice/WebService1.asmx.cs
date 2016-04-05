@@ -24,7 +24,7 @@ namespace webservice
         {
 
 
-          //  DecryptedImage = img;
+            //  DecryptedImage = img;
             height = DecryptedBitmap.Height;
             width = DecryptedBitmap.Width;
             //DecryptedBitmap = new Bitmap(DecryptedImage);
@@ -257,39 +257,39 @@ namespace webservice
 
             return result;
         }
-    ///////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
         //Encryption methods
 
 
 
         long fileSize, fileNameSize;
-      //  Image loadedTrueImage, AfterEncryption;
+        //  Image loadedTrueImage, AfterEncryption;
 
-       byte[] fileContainer;
+        byte[] fileContainer;
 
         [WebMethod]
-        public void EncryptLayer(Bitmap loadedTrueBitmap , long finfo , int fileNameSize, byte[] fileContainer)
+        public void EncryptLayer(Bitmap loadedTrueBitmap, long finfo, int fileNameSize, byte[] fileContainer)
         {
-            
-                height = loadedTrueBitmap.Height;
-                width = loadedTrueBitmap.Width;
-               // loadedTrueBitmap = new Bitmap(loadedTrueImage);
-                fileSize = finfo;
-                this.fileNameSize = fileNameSize;
-                this.fileContainer = fileContainer;
-                long FSize = fileSize;
-                Bitmap changedBitmap = EncryptLayer(8, loadedTrueBitmap, 0, (height * (width / 3) * 3) / 3 - fileNameSize - 1, true);
-                FSize -= (height * (width / 3) * 3) / 3 - fileNameSize - 1;
-                if (FSize > 0)
+
+            height = loadedTrueBitmap.Height;
+            width = loadedTrueBitmap.Width;
+            // loadedTrueBitmap = new Bitmap(loadedTrueImage);
+            fileSize = finfo;
+            this.fileNameSize = fileNameSize;
+            this.fileContainer = fileContainer;
+            long FSize = fileSize;
+            Bitmap changedBitmap = EncryptLayer(8, loadedTrueBitmap, 0, (height * (width / 3) * 3) / 3 - fileNameSize - 1, true);
+            FSize -= (height * (width / 3) * 3) / 3 - fileNameSize - 1;
+            if (FSize > 0)
+            {
+                for (int i = 7; i >= 0 && FSize > 0; i--)
                 {
-                    for (int i = 7; i >= 0 && FSize > 0; i--)
-                    {
-                        changedBitmap = EncryptLayer(i, changedBitmap, (((8 - i) * height * (width / 3) * 3) / 3 - fileNameSize - (8 - i)), (((9 - i) * height * (width / 3) * 3) / 3 - fileNameSize - (9 - i)), false);
-                        FSize -= (height * (width / 3) * 3) / 3 - 1;
-                    }
+                    changedBitmap = EncryptLayer(i, changedBitmap, (((8 - i) * height * (width / 3) * 3) / 3 - fileNameSize - (8 - i)), (((9 - i) * height * (width / 3) * 3) / 3 - fileNameSize - (9 - i)), false);
+                    FSize -= (height * (width / 3) * 3) / 3 - 1;
                 }
-               
             }
+
+        }
 
 
 
@@ -314,7 +314,7 @@ namespace webservice
                 for (i = 0; i < height && i * (height / 3) < fileNameSize; i++)
                     for (j = 0; j < (width / 3) * 3 && i * (height / 3) + (j / 3) < fileNameSize; j++)
                     {
-                        
+
                         pixel = inputBitmap.GetPixel(j, i);
                         r = pixel.R;
                         g = pixel.G;
@@ -403,7 +403,7 @@ namespace webservice
 
             return outputBitmap;
         }
-        
+
         private string justFName(string path)
         {
             string output;
@@ -432,139 +432,146 @@ namespace webservice
         /// <param name="bmp"></param>
         /// <returns></returns>
         /// 
+
+        // stegno obj = new stegno();
+
         [WebMethod]
-        public Bitmap embedText(string text, Bitmap bmp)
+        public int embedText(int text, int bmp)
         {
-           // Bitmap bmp = str2bmp(bitmap);
-            String bitmapString;
-            State s = State.hiding;
-
-            int charIndex = 0;
-            int charValue = 0;
-            long colorUnitIndex = 0;
-
-            int zeros = 0;
-
-            int R = 0, G = 0, B = 0;
-
-            for (int i = 0; i < bmp.Height; i++)
-            {
-                for (int j = 0; j < bmp.Width; j++)
-                {
-                    Color pixel = bmp.GetPixel(j, i);
-
-                    pixel = Color.FromArgb(pixel.R - pixel.R % 2,
-                        pixel.G - pixel.G % 2, pixel.B - pixel.B % 2);
-
-                    R = pixel.R; G = pixel.G; B = pixel.B;
-
-                    for (int n = 0; n < 3; n++)
-                    {
-                        if (colorUnitIndex % 8 == 0)
-                        {
-                            if (zeros == 8)
-                            {
-                                if ((colorUnitIndex - 1) % 3 < 2)
-                                {
-                                    bmp.SetPixel(j, i, Color.FromArgb(R, G, B));
-                                }
-                               // bitmapString = bmp2str(bmp);
-                               return bmp ;
-                            }
-
-                            if (charIndex >= text.Length)
-                            {
-                                s = State.filling_with_zeros;
-                            }
-                            else
-                            {
-                                charValue = text[charIndex++];
-                            }
-                        }
-
-                        switch (colorUnitIndex % 3)
-                        {
-                            case 0:
-                                {
-                                    if (s == State.hiding)
-                                    {
-                                        R += charValue % 2;
-
-                                        charValue /= 2;
-                                    }
-                                } break;
-                            case 1:
-                                {
-                                    if (s == State.hiding)
-                                    {
-                                        G += charValue % 2;
-
-                                        charValue /= 2;
-                                    }
-                                } break;
-                            case 2:
-                                {
-                                    if (s == State.hiding)
-                                    {
-                                        B += charValue % 2;
-
-                                        charValue /= 2;
-                                    }
-
-                                    bmp.SetPixel(j, i, Color.FromArgb(R, G, B));
-                                } break;
-                        }
-
-                        colorUnitIndex++;
-
-                        if (s == State.filling_with_zeros)
-                        {
-                            zeros++;
-                        }
-                    }
-                }
-            }
 
 
-            return bmp;
+            return text + bmp;
+            ////    Bitmap bmp = str2bmp(bitmap);
+            ////    String bitmapString;
+            ////    State s = State.hiding;
+
+            ////    int charIndex = 0;
+            ////    int charValue = 0;
+            ////    long colorUnitIndex = 0;
+
+            ////    int zeros = 0;
+
+            ////    int R = 0, G = 0, B = 0;
+
+            ////    for (int i = 0; i < bmp.Height; i++)
+            ////    {
+            ////        for (int j = 0; j < bmp.Width; j++)
+            ////        {
+            ////            Color pixel = bmp.GetPixel(j, i);
+
+            ////            pixel = Color.FromArgb(pixel.R - pixel.R % 2,
+            ////                pixel.G - pixel.G % 2, pixel.B - pixel.B % 2);
+
+            ////            R = pixel.R; G = pixel.G; B = pixel.B;
+
+            ////            for (int n = 0; n < 3; n++)
+            ////            {
+            ////                if (colorUnitIndex % 8 == 0)
+            ////                {
+            ////                    if (zeros == 8)
+            ////                    {
+            ////                        if ((colorUnitIndex - 1) % 3 < 2)
+            ////                        {
+            ////                            bmp.SetPixel(j, i, Color.FromArgb(R, G, B));
+            ////                        }
+            ////                        bitmapString = bmp2str(bmp);
+            ////                        return bmp;
+            ////                    }
+
+            ////                    if (charIndex >= text.Length)
+            ////                    {
+            ////                        s = State.filling_with_zeros;
+            ////                    }
+            ////                    else
+            ////                    {
+            ////                        charValue = text[charIndex++];
+            ////                    }
+            ////                }
+
+            ////                switch (colorUnitIndex % 3)
+            ////                {
+            ////                    case 0:
+            ////                        {
+            ////                            if (s == State.hiding)
+            ////                            {
+            ////                                R += charValue % 2;
+
+            ////                                charValue /= 2;
+            ////                            }
+            ////                        } break;
+            ////                    case 1:
+            ////                        {
+            ////                            if (s == State.hiding)
+            ////                            {
+            ////                                G += charValue % 2;
+
+            ////                                charValue /= 2;
+            ////                            }
+            ////                        } break;
+            ////                    case 2:
+            ////                        {
+            ////                            if (s == State.hiding)
+            ////                            {
+            ////                                B += charValue % 2;
+
+            ////                                charValue /= 2;
+            ////                            }
+
+            ////                            bmp.SetPixel(j, i, Color.FromArgb(R, G, B));
+            ////                        } break;
+            ////                }
+
+            ////                colorUnitIndex++;
+
+            ////                if (s == State.filling_with_zeros)
+            ////                {
+            ////                    zeros++;
+            ////                }
+            ////            }
+            ////        }
+            ////    }
+
+
+            ////    return bmp;
+            ////}
+
+
+
+            //public String bmp2str (Bitmap bmp) {
+
+            //    string bitmapString = null;
+            //    using (MemoryStream memoryStream = new MemoryStream())
+            //    {
+            //        bmp.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
+            //        byte[] bitmapBytes = memoryStream.GetBuffer();
+            //        bitmapString = Convert.ToBase64String(bitmapBytes, Base64FormattingOptions.InsertLineBreaks);
+            //    }
+
+
+            //    return bitmapString;
+
+            //}
+
+
+            //public Bitmap str2bmp(String str) {
+
+
+
+            //    Image img = null;
+            //    byte[] bitmapBytes = Convert.FromBase64String(str);
+            //    using (MemoryStream memoryStream = new MemoryStream(bitmapBytes))
+            //    {
+            //        img = Image.FromStream(memoryStream);
+            //    }
+            //    Bitmap bmp = new Bitmap(img);
+            //    return bmp;
+
+
+
+            //}
+
+
+
         }
-
-
-
-        //public String bmp2str (Bitmap bmp) {
-
-        //    string bitmapString = null;
-        //    using (MemoryStream memoryStream = new MemoryStream())
-        //    {
-        //        bmp.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Bmp);
-        //        byte[] bitmapBytes = memoryStream.GetBuffer();
-        //        bitmapString = Convert.ToBase64String(bitmapBytes, Base64FormattingOptions.InsertLineBreaks);
-        //    }
-
-
-        //    return bitmapString;
-            
-        //}
-
-
-        //public Bitmap str2bmp(String str) {
-
-
-
-        //    Image img = null;
-        //    byte[] bitmapBytes = Convert.FromBase64String(str);
-        //    using (MemoryStream memoryStream = new MemoryStream(bitmapBytes))
-        //    {
-        //        img = Image.FromStream(memoryStream);
-        //    }
-        //    Bitmap bmp = new Bitmap(img);
-        //    return bmp;
-
-
-
-        //}
-    
-    
-    
     }
 }
